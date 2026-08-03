@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore PaperOrrery.sln
+
+      - name: Build solution
+        run: dotnet build PaperOrrery.sln -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test PaperOrrery.sln -c Release --no-build
+
+      - name: Generate sample chart
+        run: dotnet run --project src/PaperOrrery.Cli -c Release --no-build -- chart --date 2025-06-01T00:00:00 --lat 51.4769 --lon 0 --out ci-sky-chart.svg
+
+      - name: Verify sample chart is non-empty
+        run: test -s ci-sky-chart.svg
+
+      - name: Upload sample chart
+        uses: actions/upload-artifact@v4
+        with:
+          name: sky-chart
+          path: ci-sky-chart.svg

@@ -1,0 +1,32 @@
+# Build output
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+App_Data/
+
+# .NET tooling
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Test results
+TestResults/
+*.trx
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Local artifacts
+artifacts/
+*.log

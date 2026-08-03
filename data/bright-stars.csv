@@ -1,0 +1,58 @@
+# Bright navigational stars for chart rendering.
+# Source: Yale Bright Star Catalogue, 5th rev. ed. (Hoffleit+ 1991),
+# retrieved via CDS VizieR (V/50).  Coordinates are FK5, equinox J2000,
+# with proper motion applied.  Columns: Name, Bayer, RA(deg), Dec(deg), Vmag.
+Name,Bayer,RADeg,DecDeg,Vmag
+Sirius,Alp CMa,101.287083,-16.716111,-1.46
+Canopus,Alp Car,95.987917,-52.695833,-0.72
+Arcturus,Alp Boo,213.915417,19.182500,-0.04
+Vega,Alp Lyr,279.234583,38.783611,0.03
+Capella,Alp Aur,79.172500,45.998056,0.08
+Rigel,Bet Ori,78.634583,-8.201667,0.12
+Procyon,Alp CMi,114.825417,5.225000,0.38
+Achernar,Alp Eri,24.428750,-57.236667,0.46
+Betelgeuse,Alp Ori,88.792917,7.406944,0.50
+Hadar,Bet Cen,210.955833,-60.373056,0.61
+Altair,Alp Aql,297.695833,8.868333,0.77
+Aldebaran,Alp Tau,68.980000,16.509167,0.85
+Antares,Alp Sco,247.351667,-26.431944,0.96
+Spica,Alp Vir,201.298333,-11.161389,0.98
+Pollux,Bet Gem,116.328750,28.026111,1.14
+Fomalhaut,Alp PsA,344.412917,-29.622222,1.16
+Deneb,Alp Cyg,310.357917,45.280278,1.25
+Mimosa,Bet Cru,191.930000,-59.688611,1.25
+Regulus,Alp Leo,152.092917,11.967222,1.35
+Adhara,Eps CMa,104.656250,-28.972222,1.50
+Shaula,Lam Sco,263.402083,-37.103889,1.63
+Bellatrix,Gam Ori,81.282917,6.349722,1.64
+Elnath,Bet Tau,81.572917,28.607500,1.65
+Alnilam,Eps Ori,84.053333,-1.201944,1.70
+Alnair,Alp Gru,332.058333,-46.961111,1.74
+Alioth,Eps UMa,193.507083,55.959722,1.77
+Dubhe,Alp UMa,165.932083,61.750833,1.79
+Mirfak,Alp Per,51.080833,49.861111,1.79
+Wezen,Del CMa,107.097917,-26.393333,1.84
+KausAustralis,Eps Sgr,276.042917,-34.384722,1.85
+Sargas,The Sco,264.330000,-42.997778,1.87
+Menkalinan,Bet Aur,89.882083,44.947500,1.90
+Atria,Alp TrA,252.166250,-69.027778,1.92
+Alhena,Gam Gem,99.427917,16.399167,1.93
+Peacock,Alp Pav,306.412083,-56.735000,1.94
+Alphard,Alp Hya,141.896667,-8.658611,1.98
+Castor,Alp Gem,113.650000,31.888333,1.98
+Polaris,Alp UMi,37.952917,89.264167,2.02
+Hamal,Alp Ari,31.793333,23.462500,2.00
+Diphda,Bet Cet,10.897500,-17.986667,2.04
+Alpheratz,Alp And,2.097083,29.090556,2.06
+Rasalhague,Alp Oph,263.733750,12.560000,2.08
+Kochab,Bet UMi,222.676250,74.155556,2.08
+Denebola,Bet Leo,177.265000,14.571944,2.14
+Sadr,Gam Cyg,305.557083,40.256667,2.20
+Alphecca,Alp CrB,233.672083,26.714722,2.23
+Eltanin,Gam Dra,269.151667,51.488889,2.23
+Schedar,Alp Cas,10.127083,56.537222,2.23
+Mizar,Zet UMa,200.981250,54.925278,2.27
+Enif,Eps Peg,326.046667,9.875000,2.39
+Ankaa,Alp Phe,6.570833,-42.306111,2.39
+Scheat,Bet Peg,345.943750,28.082778,2.42
+Markab,Alp Peg,346.190417,15.205278,2.49

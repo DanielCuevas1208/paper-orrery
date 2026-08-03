@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>PaperOrrery</RootNamespace>
+    <Description>Keplerian planet ephemeris and SVG sky chart renderer.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Time.fs" />
+    <Compile Include="Kepler.fs" />
+    <Compile Include="Elements.fs" />
+    <Compile Include="Ephemeris.fs" />
+    <Compile Include="Horizon.fs" />
+    <Compile Include="SkyChart.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="../../data/planet-elements.csv"
+                      LogicalName="PaperOrrery.data.planet-elements.csv" />
+    <EmbeddedResource Include="../../data/bright-stars.csv"
+                      LogicalName="PaperOrrery.data.bright-stars.csv" />
+  </ItemGroup>
+
+</Project>
