@@ -171,9 +171,8 @@ module Ephemeris =
               DeclinationDeg = decOfDate
               DistanceAu = distance } }
 
-    /// Computes the geocentric position of the Sun.
-    let geocentricSun (jdTt: float) : GeocentricBody =
-        let elements = Data.planetElements ()
+    /// Computes the geocentric position of the Sun from supplied orbital elements.
+    let geocentricSunWithElements (elements: ElementSet list) (jdTt: float) : GeocentricBody =
         let earthAt time = heliocentricAt elements "Earth" time
 
         let sunAt time =
@@ -195,3 +194,7 @@ module Ephemeris =
             { RightAscensionDeg = raOfDate
               DeclinationDeg = decOfDate
               DistanceAu = distance } }
+
+    /// Computes the geocentric position of the Sun from the bundled orbital elements.
+    let geocentricSun (jdTt: float) : GeocentricBody =
+        geocentricSunWithElements (Data.planetElements ()) jdTt
