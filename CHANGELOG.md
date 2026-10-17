@@ -2,6 +2,13 @@
 
 All notable changes to this project are listed in this file.
 
+## [Unreleased]
+
+- Centralized observation assembly in the library.
+- Preserved star magnitudes in generated charts.
+- Added deterministic observation tests.
+- Documented the demo and project roadmap.
+
 ## [1.0.0] - 2026-08-02
 
 - Added Keplerian orbit propagation from bundled elements.

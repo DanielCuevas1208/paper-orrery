@@ -7,14 +7,6 @@ open PaperOrrery.Ephemeris
 open PaperOrrery.Horizon
 open PaperOrrery.SkyChart
 
-/// A computed body ready for display or charting.
-type BodyInfo =
-    { Name: string
-      RightAscensionDeg: float
-      DeclinationDeg: float
-      AltitudeDeg: float
-      AzimuthDeg: float
-      DistanceAu: float option }
 
 type Options =
     { Date: DateTime
@@ -74,48 +66,15 @@ let private parseArguments (argv: string []) (defaults: Options) : Options =
 
     loop 0 defaults
 
-let private planetNames =
-    [ "Mercury"; "Venus"; "Mars"; "Jupiter"; "Saturn"; "Uranus"; "Neptune"; "Pluto" ]
-
-let private computeBodies (elements: ElementSet list) (jdTt: float) (lstDeg: float) (latitudeDeg: float) : BodyInfo list =
-    let toBody (body: GeocentricBody) =
-        let horizontal =
-            Horizon.toHorizontal latitudeDeg lstDeg body.EquatorialOfDate.RightAscensionDeg body.EquatorialOfDate.DeclinationDeg
-
-        { Name = body.Name
-          RightAscensionDeg = body.EquatorialOfDate.RightAscensionDeg
-          DeclinationDeg = body.EquatorialOfDate.DeclinationDeg
-          AltitudeDeg = horizontal.AltitudeDeg
-          AzimuthDeg = horizontal.AzimuthDeg
-          DistanceAu = Some body.EquatorialOfDate.DistanceAu }
-
-    let planets =
-        planetNames
-        |> List.map (fun name -> toBody (Ephemeris.geocentricPlanet elements name jdTt))
-
-    let sun = toBody (Ephemeris.geocentricSun jdTt)
-
-    let stars =
-        Data.brightStars ()
-        |> List.map (fun star ->
-            let raDate, decDate =
-                Ephemeris.precessJ2000ToDate jdTt star.RightAscensionDeg star.DeclinationDeg
-
-            let horizontal = Horizon.toHorizontal latitudeDeg lstDeg raDate decDate
-
-            { Name = star.Name
-              RightAscensionDeg = raDate
-              DeclinationDeg = decDate
-              AltitudeDeg = horizontal.AltitudeDeg
-              AzimuthDeg = horizontal.AzimuthDeg
-              DistanceAu = None })
-
-    planets @ [ sun ] @ stars
+let private observe (options: Options) (elements: ElementSet list) : ObservedBody list =
+    Observation.calculate
+        elements
+        { InstantUtc = options.Date
+          LatitudeDeg = options.LatitudeDeg
+          LongitudeDeg = options.LongitudeDeg }
 
 let private runPositions (options: Options) (elements: ElementSet list) : int =
-    let jdTt = Time.jdTtOfUtc options.Date
-    let lstDeg = Horizon.localSiderealDeg (Time.julianDayOfUtc options.Date) options.LongitudeDeg
-    let bodies = computeBodies elements jdTt lstDeg options.LatitudeDeg
+    let bodies = observe options elements
 
     printfn "%-6s %10s %10s %8s %9s %9s" "Body" "RA(deg)" "Dec(deg)" "Alt(deg)" "Az(deg)" "Dist(AU)"
     printfn "%s" (String('-', 58))
@@ -139,19 +98,16 @@ let private runPositions (options: Options) (elements: ElementSet list) : int =
     0
 
 let private runChart (options: Options) (elements: ElementSet list) : int =
-    let jdTt = Time.jdTtOfUtc options.Date
-    let jdUt = Time.julianDayOfUtc options.Date
-    let lstDeg = Horizon.localSiderealDeg jdUt options.LongitudeDeg
-    let bodies = computeBodies elements jdTt lstDeg options.LatitudeDeg
+    let bodies = observe options elements
 
     let chartBodies =
         bodies
         |> List.choose (fun body ->
             let kind =
-                if body.DistanceAu.IsSome then
-                    if body.Name = "Sun" then Sun else Planet
-                else
-                    Star
+                match body.Kind with
+                | ObservedKind.Star -> Star
+                | ObservedKind.Planet -> Planet
+                | ObservedKind.Sun -> Sun
 
             if body.AltitudeDeg >= 0.0 then
                 Some
@@ -159,7 +115,7 @@ let private runChart (options: Options) (elements: ElementSet list) : int =
                       AltitudeDeg = body.AltitudeDeg
                       AzimuthDeg = body.AzimuthDeg
                       Kind = kind
-                      Magnitude = if kind = Star then Some 0.0 else None }
+                      Magnitude = body.Magnitude }
             else
                 None)
 

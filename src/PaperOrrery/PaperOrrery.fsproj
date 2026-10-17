@@ -12,6 +12,7 @@
     <Compile Include="Elements.fs" />
     <Compile Include="Ephemeris.fs" />
     <Compile Include="Horizon.fs" />
+    <Compile Include="Observation.fs" />
     <Compile Include="SkyChart.fs" />
   </ItemGroup>
 

@@ -4,6 +4,11 @@ on:
   push:
     branches: [ main ]
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: paper-orrery-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -21,23 +26,25 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore PaperOrrery.sln
+      - name: Restore dependencies from lockfiles
+        run: dotnet restore PaperOrrery.sln --locked-mode
 
       - name: Build solution
         run: dotnet build PaperOrrery.sln -c Release --no-restore
 
       - name: Run tests
-        run: dotnet test PaperOrrery.sln -c Release --no-build
+        run: dotnet test PaperOrrery.sln -c Release --no-build --no-restore
 
       - name: Generate sample chart
-        run: dotnet run --project src/PaperOrrery.Cli -c Release --no-build -- chart --date 2025-06-01T00:00:00 --lat 51.4769 --lon 0 --out ci-sky-chart.svg
+        run: |
+          mkdir -p artifacts
+          dotnet run --project src/PaperOrrery.Cli -c Release --no-build --no-restore -- chart --date 2025-06-01T00:00:00 --lat 51.4769 --lon 0 --out artifacts/ci-sky-chart.svg
 
-      - name: Verify sample chart is non-empty
-        run: test -s ci-sky-chart.svg
+      - name: Verify sample chart
+        run: test -s artifacts/ci-sky-chart.svg
 
       - name: Upload sample chart
         uses: actions/upload-artifact@v4
         with:
           name: sky-chart
-          path: ci-sky-chart.svg
+          path: artifacts/ci-sky-chart.svg

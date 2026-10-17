@@ -11,6 +11,7 @@
     <Compile Include="ElementsTests.fs" />
     <Compile Include="HorizonTests.fs" />
     <Compile Include="EphemerisTests.fs" />
+    <Compile Include="ObservationTests.fs" />
     <Compile Include="SkyChartTests.fs" />
   </ItemGroup>
 
